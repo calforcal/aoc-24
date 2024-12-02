@@ -38,14 +38,14 @@ def similar_numbers(txt):
       continue
    return total
 
-test = total_distance("./assets/test_list.txt")
+test = total_distance("./test_list.txt")
 print("distance test", test)
 
-real = total_distance("./assets/list.txt")
+real = total_distance("./list.txt")
 print("distance real", real)
 
-test = similar_numbers("./assets/test_list.txt")
+test = similar_numbers("./test_list.txt")
 print("similar nums test", test)
 
-real = similar_numbers("./assets/list.txt")
+real = similar_numbers("./list.txt")
 print("similar nums real", real)
