@@ -43,6 +43,18 @@ def is_increasing(report):
        return False
     else:
        return None
+    
+def validate_current_and_next(report, i, j):
+     report_1 = report.copy()
+     report_2 = report.copy()
+     del report_1[i]
+     del report_2[j]
+     second_to_last = validate_report(report_1)
+     last = validate_report(report_2)
+     if second_to_last or last:
+         return True
+     else:
+         return False
 
 
 def validate_report_with_fault(report):
@@ -53,18 +65,11 @@ def validate_report_with_fault(report):
      total_faults = 0
      while i < len(report) - 1 and j < len(report):
        if j == len(report) - 1:
-          report_1 = report.copy()
-          report_2 = report.copy()
-          del report_1[i]
-          del report_2[j]
-          second_to_last = validate_report(report_1)
-          last = validate_report(report_2)
-          if second_to_last or last:
-             return True
-          else:
-             return False
+          return validate_current_and_next(report, i, j)
+       
        increased = True if int(report[i]) < int(report[j]) else False
        abs_value = abs(int(report[i]) - int(report[j]))
+
        if abs_value == 0 or abs_value > 3:
            total_faults += 1
       
@@ -72,17 +77,7 @@ def validate_report_with_fault(report):
            total_faults += 1
     
        if total_faults > 0:
-          remove_current = report.copy()
-          remove_next = report.copy()
-          del remove_next[j]
-          del remove_current[i]
-
-          validated_1 = validate_report(remove_current)
-          validated_2 = validate_report(remove_next)
-          if validated_1 or validated_2:
-             return True
-          else:
-             return False
+          return validate_current_and_next(report, i, j)
        else:
           i += 1
           j += 1
@@ -118,16 +113,14 @@ def calculate_reports_with_faults(txt):
 def count_reports():
    return len(read_file_into_array("./data.txt"))
 
-# test_reports = calculate_reports("./example_data.txt")
-# print("Test Data Report Count -> ", test_reports)
+test_reports = calculate_reports("./example_data.txt")
+print("Test Data Report Count -> ", test_reports)
 
-# reports = calculate_reports("./data.txt")
-# print("Report Count -> ", reports)
+reports = calculate_reports("./data.txt")
+print("Report Count -> ", reports)
 
 test_reports_with_faults = calculate_reports_with_faults("./example_data.txt")
 print("Test Data Report Count -> ", test_reports_with_faults)
 
 reports_with_faults = calculate_reports_with_faults("./data.txt")
 print("Report Count -> ", reports_with_faults)
-
-# print("report count: ", count_reports())
